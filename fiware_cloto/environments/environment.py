@@ -82,7 +82,7 @@ def main():
                              host=DB_HOST, user=DB_USER, passwd=DB_PASSWD, db=DB_NAME)
         #conn.row_factory = db.Row
         cur = conn.cursor()
-        SQL = "SELECT url from cloto.cloto_subscription S join cloto.cloto_specificrule R " \
+        SQL = "SELECT url from " + DB_NAME + ".cloto_subscription S join " + DB_NAME + ".cloto_specificrule R " \
               "on S.ruleId=R.specificRule_Id " \
               "WHERE name='%s' AND S.serverId='%s';" \
               % (ruleName, serverId)
@@ -144,9 +144,9 @@ def main():
         #conn = db.connect("cloto.db")
         #conn.row_factory = db.Row
         cur = conn.cursor()
-        SQL = "SELECT * FROM cloto.cloto_specificrule WHERE specificRule_Id IN " \
-              "(SELECT ruleId FROM cloto.cloto_subscription WHERE %s IN " \
-              "(SELECT %s FROM cloto.cloto_entity WHERE tenantId='%s'))" % (SERVERID, SERVERID, tenantId)
+        SQL = "SELECT * FROM " + DB_NAME + ".cloto_specificrule WHERE specificRule_Id IN " \
+              "(SELECT ruleId FROM " + DB_NAME + ".cloto_subscription WHERE %s IN " \
+              "(SELECT %s FROM " + DB_NAME + ".cloto_entity WHERE tenantId='%s'))" % (SERVERID, SERVERID, tenantId)
         cur.execute(SQL)
         while True:
             r = cur.fetchone()
